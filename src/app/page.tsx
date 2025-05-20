@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const FONT_SIZES = [
   { label: "標準 (16px)", value: "text-base" },
@@ -16,6 +16,7 @@ const STORAGE_KEYS = {
 
 export default function Home() {
   const [memo, setMemo] = useState("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   // const [isPreview, setIsPreview] = useState(false);
   const [isAutoSave, setIsAutoSave] = useState(false);
   const [fontSize, setFontSize] = useState("text-base");
@@ -29,6 +30,9 @@ export default function Home() {
     if (savedFontSize) setFontSize(savedFontSize);
     if (savedMemo) setMemo(savedMemo);
     if (savedAutoSave) setIsAutoSave(savedAutoSave === "true");
+
+    // コンポーネントのマウント時にフォーカスを設定
+    textareaRef.current?.focus();
   }, []);
 
   // 文字サイズの保存
@@ -114,6 +118,7 @@ export default function Home() {
           </div>
         ) : ( */}
         <textarea
+          ref={textareaRef}
           value={memo}
           onChange={(e) => setMemo(e.target.value)}
           className={`w-full h-full p-4 focus:outline-none resize-none ${fontSize}`}
