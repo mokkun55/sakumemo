@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const FONT_SIZES = [
   { label: "標準 (16px)", value: "text-base" },
@@ -8,11 +8,63 @@ const FONT_SIZES = [
   { label: "特大 (32px)", value: "text-4xl" },
 ];
 
+const STORAGE_KEYS = {
+  FONT_SIZE: "md-memo-font-size",
+  MEMO: "md-memo-content",
+  AUTO_SAVE: "md-memo-auto-save",
+} as const;
+
 export default function Home() {
   const [memo, setMemo] = useState("");
   const [isPreview, setIsPreview] = useState(false);
   const [isAutoSave, setIsAutoSave] = useState(false);
   const [fontSize, setFontSize] = useState("text-base");
+
+  // 初期値の読み込み
+  useEffect(() => {
+    const savedFontSize = localStorage.getItem(STORAGE_KEYS.FONT_SIZE);
+    const savedMemo = localStorage.getItem(STORAGE_KEYS.MEMO);
+    const savedAutoSave = localStorage.getItem(STORAGE_KEYS.AUTO_SAVE);
+
+    if (savedFontSize) setFontSize(savedFontSize);
+    if (savedMemo) setMemo(savedMemo);
+    if (savedAutoSave) setIsAutoSave(savedAutoSave === "true");
+  }, []);
+
+  // 文字サイズの保存
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.FONT_SIZE, fontSize);
+  }, [fontSize]);
+
+  // 自動保存が有効な場合の本文の保存
+  useEffect(() => {
+    if (isAutoSave) {
+      localStorage.setItem(STORAGE_KEYS.MEMO, memo);
+    }
+  }, [memo, isAutoSave]);
+
+  // 自動保存フラグの保存と本文のリセット
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.AUTO_SAVE, String(isAutoSave));
+    if (!isAutoSave) {
+      localStorage.removeItem(STORAGE_KEYS.MEMO);
+    }
+  }, [isAutoSave]);
+
+  // ページ離脱時の確認ダイアログ
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (!isAutoSave && memo.trim() !== "") {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [isAutoSave, memo]);
 
   return (
     <main className="h-screen flex flex-col">
