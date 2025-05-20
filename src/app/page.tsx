@@ -69,36 +69,38 @@ export default function Home() {
   return (
     <main className="h-screen flex flex-col">
       <header className="border-b p-4 bg-white">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold">MDメモ</h1>
-          <div className="flex gap-4 items-center">
-            <select
-              value={fontSize}
-              onChange={(e) => setFontSize(e.target.value)}
-              className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors focus:outline-none cursor-pointer"
-            >
-              {FONT_SIZES.map((size) => (
-                <option key={size.value} value={size.value}>
-                  {size.label}
-                </option>
-              ))}
-            </select>
-            <button
-              type="button"
-              onClick={() => setIsPreview(!isPreview)}
-              className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors"
-            >
-              {isPreview ? "編集" : "プレビュー"}
-            </button>
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={isAutoSave}
-                onChange={(e) => setIsAutoSave(e.target.checked)}
-                className="w-4 h-4"
-              />
-              <span>自動保存</span>
-            </label>
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <h1 className="text-2xl font-bold">MDメモ</h1>
+            <div className="flex flex-wrap gap-4 items-center">
+              <select
+                value={fontSize}
+                onChange={(e) => setFontSize(e.target.value)}
+                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors focus:outline-none cursor-pointer hidden sm:block"
+              >
+                {FONT_SIZES.map((size) => (
+                  <option key={size.value} value={size.value}>
+                    {size.label}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                onClick={() => setIsPreview(!isPreview)}
+                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors"
+              >
+                {isPreview ? "編集" : "プレビュー"}
+              </button>
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={isAutoSave}
+                  onChange={(e) => setIsAutoSave(e.target.checked)}
+                  className="w-4 h-4"
+                />
+                <span>自動保存</span>
+              </label>
+            </div>
           </div>
         </div>
       </header>
