@@ -16,7 +16,7 @@ const STORAGE_KEYS = {
 
 export default function Home() {
   const [memo, setMemo] = useState("");
-  const [isPreview, setIsPreview] = useState(false);
+  // const [isPreview, setIsPreview] = useState(false);
   const [isAutoSave, setIsAutoSave] = useState(false);
   const [fontSize, setFontSize] = useState("text-base");
 
@@ -71,7 +71,7 @@ export default function Home() {
       <header className="border-b p-4 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <h1 className="text-2xl font-bold">MDメモ</h1>
+            <h1 className="text-2xl font-bold">メモ</h1>
             <div className="flex flex-wrap gap-4 items-center">
               <select
                 value={fontSize}
@@ -84,13 +84,13 @@ export default function Home() {
                   </option>
                 ))}
               </select>
-              <button
+              {/* <button
                 type="button"
                 onClick={() => setIsPreview(!isPreview)}
                 className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors"
               >
                 {isPreview ? "編集" : "プレビュー"}
-              </button>
+              </button> */}
               <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -106,21 +106,20 @@ export default function Home() {
       </header>
 
       <div className="flex-1 overflow-hidden">
-        {isPreview ? (
+        {/* {isPreview ? (
           <div
             className={`prose max-w-none h-full p-4 overflow-auto ${fontSize}`}
           >
-            {/* プレビュー表示部分は後で実装 */}
             {memo}
           </div>
-        ) : (
-          <textarea
-            value={memo}
-            onChange={(e) => setMemo(e.target.value)}
-            className={`w-full h-full p-4 focus:outline-none resize-none ${fontSize}`}
-            placeholder="メモを入力してください..."
-          />
-        )}
+        ) : ( */}
+        <textarea
+          value={memo}
+          onChange={(e) => setMemo(e.target.value)}
+          className={`w-full h-full p-4 focus:outline-none resize-none ${fontSize}`}
+          placeholder="メモを入力してください..."
+        />
+        {/* )} */}
       </div>
     </main>
   );
