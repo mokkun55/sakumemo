@@ -69,7 +69,7 @@ export default function Home() {
   return (
     <main className="h-screen flex flex-col">
       <header className="border-b p-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <h1 className="text-2xl font-bold">メモ</h1>
             <div className="flex flex-wrap gap-4 items-center">
